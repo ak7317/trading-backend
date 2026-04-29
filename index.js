@@ -21,7 +21,7 @@ const uri = process.env.MONGO_URL;
 
 // middleware
 app.use(cors());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(express.json());
 
 // routes use
@@ -238,8 +238,14 @@ app.get("/allOrders", async (req, res) => {
     res.status(500).json({ message: "Error fetching orders" });
   }
 });
-app.listen(PORT, ()=>{
-    console.log("app start");
-    mongoose.connect(uri);
-    console.log("db connect");
-} );
+mongoose.connect(uri)
+  .then(() => {
+    console.log("MongoDB connected");
+
+    app.listen(PORT, () => {
+      console.log("Server running on port " + PORT);
+    });
+  })
+  .catch((err) => {
+    console.log("DB Error:", err);
+  });
