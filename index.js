@@ -12,9 +12,9 @@ const authRoute = require("./routes/AuthRoute");
 const protectedRoute = require("./routes/ProtectedRoute");
 
 // models
-const {HoldingsModel} = require('./model/HoldingsModel');
-const {PositionsModel} = require('./model/PositionsModel');
-const {OrdersModel} = require('./model/OrdersModel');
+const HoldingsModel = require('./model/HoldingsModel.js');
+const PositionsModel = require('./model/PositionsModel');
+const OrdersModel = require('./model/OrdersModel');
 
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
@@ -193,6 +193,10 @@ app.use("/api", protectedRoute);
 // });
 
 app.get("/allHoldings",auth, async (req,res) =>{
+
+   if (!HoldingsModel) {
+        console.log("HoldingsModel is undefined!");
+    }
     let allHoldings = await HoldingsModel.find({});
     res.json(allHoldings);
 });
