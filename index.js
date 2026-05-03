@@ -201,8 +201,13 @@ app.get("/allHoldings",auth, async (req,res) =>{
     res.json(allHoldings);
 });
 app.get("/allPositions",auth, async (req,res) =>{
+  try {
     let allPositions = await PositionsModel.find({});
     res.json(allPositions);
+  } catch (error) {
+    console.log("POSITIONS ERROR:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
 
 });
 
